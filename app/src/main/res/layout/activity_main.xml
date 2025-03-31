@@ -12,43 +12,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/empty_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_empty_frame"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/no_movies_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No movies selected"
-            android:visibility="gone" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movies_list"
+            android:id="@+id/moviesList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_movie"
+            android:id="@+id/fabAddMovie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
             android:src="@android:drawable/ic_input_add" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/btn_delete_selected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_delete" />
-        </androidx.appcompat.widget.Toolbar>
+        <Button
+            android:id="@+id/btnDeleteSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Удалить выбранные" />
+
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
