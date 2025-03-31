@@ -8,34 +8,36 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/search_query"
+            android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search query" />
+            android:hint="Введите название фильма" />
 
         <EditText
-            android:id="@+id/year"
+            android:id="@+id/etYear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Year" />
+            android:hint="Год выхода" />
 
         <Button
-            android:id="@+id/search_button"
+            android:id="@+id/btnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search" />
+            android:text="Поиск" />
+
+        <Button
+            android:id="@+id/btnAddMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Добавить фильм" />
 
         <ImageView
-            android:id="@+id/poster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/ivPoster"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
 
-        <Button
-            android:id="@+id/add_movie_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Movie" />
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
