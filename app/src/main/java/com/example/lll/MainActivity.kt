@@ -2,16 +2,8 @@ package com.example.lll
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toolbar
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         fabAddMovie.setOnClickListener {
             val intent = Intent(this, AddActivity::class.java)
-            startActivity(intent)
+            startActivity(intent) // Line 39:  This is where the crash occurs *if* AddActivity is not in the manifest.
         }
 
         btnDeleteSelected.setOnClickListener {
@@ -44,4 +36,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
