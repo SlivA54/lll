@@ -8,39 +8,30 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class AddActivity : AppCompatActivity() {
-    private lateinit var searchQueryEditText: EditText
-    private lateinit var yearEditText: EditText
-    private lateinit var searchButton: Button
-    private lateinit var posterImageView: ImageView
-    private lateinit var addMovieButton: Button
+    private lateinit var etSearch: EditText
+    private lateinit var etYear: EditText
+    private lateinit var btnSearch: Button
+    private lateinit var btnAddMovie: Button
+    private lateinit var ivPoster: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
 
-        searchQueryEditText = findViewById(R.id.search_query)
-        yearEditText = findViewById(R.id.year)
-        searchButton = findViewById(R.id.search_button)
-        posterImageView = findViewById(R.id.poster)
-        addMovieButton = findViewById(R.id.add_movie_button)
+        etSearch = findViewById(R.id.etSearch)
+        etYear = findViewById(R.id.etYear)
+        btnSearch = findViewById(R.id.btnSearch)
+        btnAddMovie = findViewById(R.id.btnAddMovie)
+        ivPoster = findViewById(R.id.ivPoster)
 
-        searchButton.setOnClickListener {
+        btnSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra("query", searchQueryEditText.text.toString())
+            intent.putExtra("searchQuery", etSearch.text.toString())
             startActivity(intent)
         }
 
-        addMovieButton.setOnClickListener {
-            // Добавление фильма в БД
-            val dbHelper = MovieDatabaseHelper(this)
-            val movie = Movie(
-                0, // id будет автоматически присвоен
-                searchQueryEditText.text.toString(),
-                yearEditText.text.toString().toInt(),
-                "poster_url"
-            )
-            dbHelper.insertMovie(movie)
-            finish()
+        btnAddMovie.setOnClickListener {
+            // Добавление фильма в базу данных
         }
     }
 }
