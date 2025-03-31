@@ -1,12 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    // Добавьте плагин для kapt
-    alias(libs.plugins.kotlinx.serialization)
-    id("kotlin-kapt")
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization") // Плагин для kotlinx.serialization
 }
 
 android {
@@ -42,6 +36,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -50,11 +45,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.room:room-runtime:2.5.1")
-    kapt("androidx.room:room-compiler:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0")
-    implementation("androidx.core:core-ktx:1.10.0")
-    implementation("com.squareup.okhttp3:okhttp:4.10.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation ("androidx.core:core-ktx:1.10.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
 }
