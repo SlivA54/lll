@@ -42,6 +42,8 @@ class SearchActivity : AppCompatActivity() {
         val apiService = retrofit.create(ApiService::class.java)
 
         val apiKey = "eda8fb5d" // Замените на ваш API ключ
+
+        // Используем правильные параметры для OMDB API
         val call = apiService.searchMovies(query, apiKey)
 
         call.enqueue(object : Callback<MovieResponse> {

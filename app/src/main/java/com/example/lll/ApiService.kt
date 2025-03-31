@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
+
     @GET("/")
     fun searchMovies(
         @Query("s") query: String,
