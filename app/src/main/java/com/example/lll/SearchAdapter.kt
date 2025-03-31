@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import android.widget.TextView
+import android.widget.ImageView
 
 class SearchAdapter(private val context: Context, private var movies: List<MovieItem>) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
@@ -27,21 +29,18 @@ class SearchAdapter(private val context: Context, private var movies: List<Movie
     override fun getItemCount(): Int = movies.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleTextView: android.widget.TextView = itemView.findViewById(R.id.tvTitle)
-        private val yearTextView: android.widget.TextView = itemView.findViewById(R.id.tvYear)
-        private val genreTextView: android.widget.TextView = itemView.findViewById(R.id.tvGenre)
-        private val posterImageView: android.widget.ImageView = itemView.findViewById(R.id.ivPoster)
+        private val titleTextView: TextView = itemView.findViewById(R.id.tvTitle)
+        private val yearTextView: TextView = itemView.findViewById(R.id.tvYear)
+        private val genreTextView: TextView = itemView.findViewById(R.id.tvGenre)
+        private val posterImageView: ImageView = itemView.findViewById(R.id.ivPoster)
 
-        fun bind(movie: Movie) {
-            titleTextView.text = movie.title
-            yearTextView.text = movie.year.toString()
-            genreTextView.text = movie.genre // Если у вас есть поле жанра в модели Movie
-            // Для загрузки постера можно использовать библиотеку Glide или Picasso
-            // Пример с Glide:
+        fun bind(movie: MovieItem) { // Изменено на MovieItem
+            titleTextView.text = movie.Title
+            yearTextView.text = movie.Year
+            // genreTextView.text = movie.genre // Нет поля genre в MovieItem
             Glide.with(context)
-                .load(movie.poster)
+                .load(movie.Poster)
                 .into(posterImageView)
         }
     }
 }
-

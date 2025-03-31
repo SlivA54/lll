@@ -41,7 +41,7 @@ class SearchActivity : AppCompatActivity() {
 
         val apiService = retrofit.create(ApiService::class.java)
 
-        val apiKey = "YOUR_API_KEY" // Замените на ваш API ключ
+        val apiKey = "eda8fb5d" // Замените на ваш API ключ
         val call = apiService.searchMovies(query, apiKey)
 
         call.enqueue(object : Callback<MovieResponse> {
