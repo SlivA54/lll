@@ -3,41 +3,46 @@ package com.example.lll
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(private val onDeleteClick: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    private var movies: List<Movie> = listOf()
+    private var movies: List<Movie> = emptyList()
 
-    fun setMovies(movies: List<Movie>) {
-        this.movies = movies
+    fun submitList(newMovies: List<Movie>) {
+        movies = newMovies
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
-        return ViewHolder(view)
+        return MovieViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movies[position]
-        holder.titleTextView.text = movie.title
-        holder.yearTextView.text = movie.year.toString()
-        holder.posterImageView.setImageResource(R.drawable.default_poster) // временно, пока нет реального постера
-        holder.checkBox.isChecked = false // временно, пока нет логики для выбора
+        holder.bind(movie, onDeleteClick)
     }
 
-    override fun getItemCount(): Int {
-        return movies.size
-    }
+    override fun getItemCount(): Int = movies.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
-        val yearTextView: TextView = itemView.findViewById(R.id.yearTextView)
-        val posterImageView: ImageView = itemView.findViewById(R.id.posterImageView)
-        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
+    class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
+        private val yearTextView: TextView = itemView.findViewById(R.id.yearTextView)
+        private val posterImageView: ImageView = itemView.findViewById(R.id.posterImageView)
+
+        fun bind(movie: Movie, onDeleteClick: (Movie) -> Unit) {
+            titleTextView.text = movie.title
+            yearTextView.text = movie.year.toString()
+            // Для загрузки постера используйте Glide или Picasso (пример с Glide):
+            // Glide.with(itemView.context).load(movie.poster).into(posterImageView)
+
+            itemView.setOnLongClickListener {
+                onDeleteClick(movie)
+                true
+            }
+        }
     }
 }

@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class AddActivity : AppCompatActivity() {
     private lateinit var etSearch: EditText
@@ -13,6 +15,7 @@ class AddActivity : AppCompatActivity() {
     private lateinit var btnSearch: Button
     private lateinit var btnAddMovie: Button
     private lateinit var ivPoster: ImageView
+    private lateinit var movieDatabase: MovieDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +27,8 @@ class AddActivity : AppCompatActivity() {
         btnAddMovie = findViewById(R.id.btnAddMovie)
         ivPoster = findViewById(R.id.ivPoster)
 
+        movieDatabase = MovieDatabase.getDatabase(this)
+
         btnSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             intent.putExtra("searchQuery", etSearch.text.toString())
@@ -31,7 +36,17 @@ class AddActivity : AppCompatActivity() {
         }
 
         btnAddMovie.setOnClickListener {
-            // Добавление фильма в базу данных
+            val title = etSearch.text.toString()
+            val year = etYear.text.toString()
+            val posterUrl = "https://example.com/poster.jpg" // Замените на реальный URL
+
+            lifecycleScope.launch {
+                val movie = Movie(0, title, year, posterUrl)
+                movieDatabase.movieDao().insertMovie(movie)
+                finish() // Закрыть AddActivity после добавления фильма.
+            }
         }
+
     }
 }
+

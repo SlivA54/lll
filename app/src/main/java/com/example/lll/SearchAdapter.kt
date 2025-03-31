@@ -37,7 +37,7 @@ class SearchAdapter(private val context: Context, private var movies: List<Movie
         fun bind(movie: MovieItem) { // Изменено на MovieItem
             titleTextView.text = movie.Title
             yearTextView.text = movie.Year
-            // genreTextView.text = movie.genre // Нет поля genre в MovieItem
+            genreTextView.text = movie.genre // Нет поля genre в MovieItem
             Glide.with(context)
                 .load(movie.Poster)
                 .into(posterImageView)
