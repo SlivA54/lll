@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id ("kotlin-kapt")
 }
 
 android {
@@ -45,7 +46,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation ("androidx.core:core-ktx:1.10.0")
-    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation ("androidx.room:room-runtime:2.5.1")
+    kapt ("androidx.room:room-compiler:2.5.1")
+    implementation ("androidx.room:room-ktx:2.5.1")
 }
