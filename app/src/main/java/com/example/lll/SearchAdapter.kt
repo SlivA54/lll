@@ -9,7 +9,11 @@ import com.bumptech.glide.Glide
 import android.widget.TextView
 import android.widget.ImageView
 
-class SearchAdapter(private val context: Context, private var movies: List<MovieItem>) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(
+    private val context: Context,
+    private var movies: List<MovieItem>,
+    private val onItemClick: (MovieItem) -> Unit // Лямбда для обработки кликов
+) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     fun updateMovies(newMovies: List<MovieItem>) {
         movies = newMovies
@@ -22,25 +26,28 @@ class SearchAdapter(private val context: Context, private var movies: List<Movie
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = movies[position]
-        holder.bind(movie)
+        holder.bind(movies[position])
+        holder.itemView.setOnClickListener { onItemClick(movies[position]) }
     }
 
     override fun getItemCount(): Int = movies.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleTextView: TextView = itemView.findViewById(R.id.tvTitle)
-        private val yearTextView: TextView = itemView.findViewById(R.id.tvYear)
-        private val genreTextView: TextView = itemView.findViewById(R.id.tvGenre)
-        private val posterImageView: ImageView = itemView.findViewById(R.id.ivPoster)
+        private val title: TextView = itemView.findViewById(R.id.tvTitle)
+        private val year: TextView = itemView.findViewById(R.id.tvYear)
+        private val poster: ImageView = itemView.findViewById(R.id.ivPoster)
 
-        fun bind(movie: MovieItem) { // Изменено на MovieItem
-            titleTextView.text = movie.Title
-            yearTextView.text = movie.Year
-            genreTextView.text = movie.genre // Нет поля genre в MovieItem
+        fun bind(movie: MovieItem) {
+            title.text = movie.Title
+            year.text = movie.Year
             Glide.with(context)
                 .load(movie.Poster)
-                .into(posterImageView)
+                .placeholder(R.drawable.placeholder)
+                .into(poster)
+            itemView.setOnClickListener {
+                onItemClick(movie) // Вызов лямбды при клике
+            }
         }
     }
 }
+
