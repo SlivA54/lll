@@ -5,9 +5,14 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class AddActivity : AppCompatActivity() {
     private lateinit var etSearch: EditText
@@ -16,6 +21,14 @@ class AddActivity : AppCompatActivity() {
     private lateinit var btnAddMovie: Button
     private lateinit var ivPoster: ImageView
     private lateinit var movieDatabase: MovieDatabase
+    private var posterUrl: String? = null
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://www.omdbapi.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val apiService = retrofit.create(ApiService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,23 +43,61 @@ class AddActivity : AppCompatActivity() {
         movieDatabase = MovieDatabase.getDatabase(this)
 
         btnSearch.setOnClickListener {
-            val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra("searchQuery", etSearch.text.toString())
-            startActivity(intent)
+            val searchQuery = etSearch.text.toString()
+            val year = etYear.text.toString()
+
+            lifecycleScope.launch {
+                try {
+                    val response = apiService.searchMovieDetails(
+                        title = searchQuery,
+                        year = if (year.isNotEmpty()) year else null,
+                        apiKey = "eda8fb5d"
+                    )
+
+                    if (response.isSuccessful) {
+                        val movie = response.body()
+                        posterUrl = movie?.poster
+
+                        posterUrl?.let { url ->
+                            Glide.with(this@AddActivity)
+                                .load(url)
+                                .into(ivPoster)
+                        } ?: run {
+                            ivPoster.setImageResource(R.drawable.placeholder)
+                        }
+                    } else {
+                        showError("Фильм не найден")
+                    }
+                } catch (e: Exception) {
+                    showError("Ошибка сети: ${e.message}")
+                }
+            }
         }
 
         btnAddMovie.setOnClickListener {
             val title = etSearch.text.toString()
             val year = etYear.text.toString()
-            val posterUrl = "https://example.com/poster.jpg" // Замените на реальный URL
+            val currentPosterUrl = posterUrl ?: "https://example.com/placeholder.jpg"
+
+            if (title.isEmpty()) {
+                etSearch.error = "Введите название фильма"
+                return@setOnClickListener
+            }
 
             lifecycleScope.launch {
-                val movie = Movie(0, title, year, posterUrl)
+                val movie = Movie(
+                    id = 0,
+                    title = title,
+                    year = year,
+                    poster = currentPosterUrl
+                )
                 movieDatabase.movieDao().insertMovie(movie)
-                finish() // Закрыть AddActivity после добавления фильма.
+                finish()
             }
         }
+    }
 
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
-
