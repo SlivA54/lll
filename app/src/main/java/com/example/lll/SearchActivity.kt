@@ -22,16 +22,21 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         recyclerView = findViewById(R.id.searchResultsList)
-        adapter = SearchAdapter(this, emptyList()) // Инициализация адаптера с пустым списком
+        adapter = SearchAdapter(this, emptyList())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val searchQuery = intent.getStringExtra("searchQuery")
+        // Получаем текст из поля ввода AddActivity
+        val searchQuery = intent.getStringExtra("searchQuery") ?: ""
 
-        if (!searchQuery.isNullOrEmpty()) {
+        // Если текст не пустой, выполняем поиск
+        if (searchQuery.isNotEmpty()) {
             searchMovies(searchQuery)
+        } else {
+            Toast.makeText(this, "Введите название фильма", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun searchMovies(query: String) {
         val retrofit = Retrofit.Builder()

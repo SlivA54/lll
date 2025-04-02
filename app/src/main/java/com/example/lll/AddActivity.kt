@@ -22,6 +22,7 @@ class AddActivity : AppCompatActivity() {
     private lateinit var ivPoster: ImageView
     private lateinit var movieDatabase: MovieDatabase
     private var posterUrl: String? = null
+    private lateinit var searchButton: Button
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://www.omdbapi.com/")
@@ -39,6 +40,7 @@ class AddActivity : AppCompatActivity() {
         btnSearch = findViewById(R.id.btnSearch)
         btnAddMovie = findViewById(R.id.btnAddMovie)
         ivPoster = findViewById(R.id.ivPoster)
+        searchButton = findViewById(R.id.searchButton) // Initialize searchButton
 
         movieDatabase = MovieDatabase.getDatabase(this)
 
@@ -74,6 +76,8 @@ class AddActivity : AppCompatActivity() {
             }
         }
 
+
+
         btnAddMovie.setOnClickListener {
             val title = etSearch.text.toString()
             val year = etYear.text.toString()
@@ -93,6 +97,17 @@ class AddActivity : AppCompatActivity() {
                 )
                 movieDatabase.movieDao().insertMovie(movie)
                 finish()
+            }
+        }
+        searchButton.setOnClickListener {
+            val query = etSearch.text.toString()
+            if (query.isNotEmpty()) {
+                val intent = Intent(this, SearchActivity::class.java).apply {
+                    putExtra("searchQuery", query)
+                }
+                startActivity(intent)
+            } else {
+                etSearch.error = "Введите название фильма"
             }
         }
     }
