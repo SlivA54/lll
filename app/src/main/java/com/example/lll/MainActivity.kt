@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MovieAdapter
     private lateinit var fabAddMovie: FloatingActionButton
     private lateinit var btnDeleteSelected: Button
+
     private val viewModel: MovieViewModel by viewModels {
         MovieViewModelFactory(MovieDatabase.getDatabase(this).movieDao())
     }
@@ -27,22 +29,18 @@ class MainActivity : AppCompatActivity() {
         fabAddMovie = findViewById(R.id.fabAddMovie)
         btnDeleteSelected = findViewById(R.id.btnDeleteSelected)
 
-        adapter = MovieAdapter { movie -> viewModel.deleteMovie(movie) } // Callback для удаления фильма
+        adapter = MovieAdapter { movie -> viewModel.deleteMovie(movie) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         fabAddMovie.setOnClickListener {
-            val intent = Intent(this, AddActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AddActivity::class.java))
         }
 
         btnDeleteSelected.setOnClickListener {
             viewModel.deleteSelectedMovies(adapter.getSelectedMovies())
-            // Удаление выбранных фильмов
-            // Добавьте логику для удаления выбранных фильмов
         }
 
-        // Наблюдаем за изменениями в базе данных
         viewModel.allMovies.observe(this, Observer { movies ->
             adapter.submitList(movies)
         })

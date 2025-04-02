@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "movies")
 data class Movie(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val year: String,
-    val poster: String,
+    val posterUrl: String, // Field for storing the poster URL
+    var isSelected: Boolean = false
 )

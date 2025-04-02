@@ -89,7 +89,7 @@ class AddActivity : AppCompatActivity() {
                     id = 0,
                     title = title,
                     year = year,
-                    poster = currentPosterUrl
+                    posterUrl = currentPosterUrl
                 )
                 movieDatabase.movieDao().insertMovie(movie)
                 finish()

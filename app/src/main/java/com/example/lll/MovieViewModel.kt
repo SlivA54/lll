@@ -20,4 +20,10 @@ class MovieViewModel(private val movieDao: MovieDao) : ViewModel() {
             movieDao.deleteMovies(movies)
         }
     }
+
+    fun insertMovie(movie: Movie) {
+        viewModelScope.launch(Dispatchers.IO) {
+            movieDao.insertMovie(movie)
+        }
+    }
 }
