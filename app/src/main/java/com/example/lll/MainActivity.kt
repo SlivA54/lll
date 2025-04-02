@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnDeleteSelected.setOnClickListener {
+            viewModel.deleteSelectedMovies(adapter.getSelectedMovies())
             // Удаление выбранных фильмов
             // Добавьте логику для удаления выбранных фильмов
         }

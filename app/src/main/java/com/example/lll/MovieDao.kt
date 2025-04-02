@@ -15,4 +15,7 @@ interface MovieDao {
     @Delete
     suspend fun deleteMovie(movie: Movie)
 
+    @Transaction
+    @Delete
+    suspend fun deleteMovies(movies: List<Movie>)
 }
